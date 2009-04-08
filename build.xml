@@ -1,0 +1,47 @@
+<project name="hq-sunglassfish" default="dist">
+	
+	<property name="src.dir" location="${basedir}/src"/>
+	<property name="lib.dir" location="${basedir}/lib"/>
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="etc.dir" location="${basedir}/etc"/>
+	<property name="dist.dir" location="${basedir}/dist"/>
+	<property name="bin.dir" location="${basedir}/bin"/>
+
+	
+
+	<target name="clean">
+		<delete dir="${dist.dir}"/>
+		<delete dir="${build.dir}"/>
+	</target>
+	
+	<target name="init" depends="clean">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${build.dir}"/>
+	</target>   
+
+	<target name="compile">
+		<javac srcdir="${src.dir}" destdir="${build.dir}">
+			<include name="**/*.java"/>
+			<classpath>
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="init,compile">
+		<jar destfile="${dist.dir}/sunglassfish-plugin.jar">
+			<fileset dir=".">
+				<include name="etc/"/>
+			</fileset>	
+			<fileset dir="${build.dir}">
+				<include name="org/"/>
+			</fileset>
+		</jar>
+	</target>
+	
+		
+	
+	
+</project>
